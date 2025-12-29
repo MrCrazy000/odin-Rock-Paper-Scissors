@@ -1,3 +1,8 @@
+rockBtn = document.querySelector('#rockBtn')
+paperBtn = document.querySelector('#paperBtn')
+scissorsBtn = document.querySelector('#scissorsBtn')
+div = document.querySelector('#div')
+
 function getComputerChoice() {
     randomNumber = Math.random();
     if (randomNumber < 0.33) {
@@ -17,50 +22,64 @@ function getHumanChoice() {
 
 let humanScore = 0;
 let computerScore = 0;
+let roundsPlayed = 0
 
 function playRound(humanChoice, computerChoice) {
     if (humanChoice === 'rock' && computerChoice === 'paper') {
-        console.log('AI Won!')
+        roundsPlayed++
         computerScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else if (humanChoice === 'paper' && computerChoice === 'rock') {
-        console.log('You won!')
+        roundsPlayed++
         humanScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else if (humanChoice === 'scissors' && computerChoice === 'rock'){
-        console.log('AI Won!')
+        roundsPlayed++
         computerScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else if (humanChoice === 'rock' && computerChoice === 'scissors') {
-        console.log('You won!')
+        roundsPlayed++
         humanScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else if (humanChoice === 'paper' && computerChoice === 'scissors') {
-        console.log('AI Won!')
+        roundsPlayed++
         computerScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else if (humanChoice === 'scissors' && computerChoice === 'paper') {
-        console.log('You won!')
+        roundsPlayed++
         humanScore++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     } else {
-        console.log("It's a draw!")
+        roundsPlayed++
+        div.textContent = 'Your Score: ' + humanScore + ' AI Score:' + computerScore
     }
     console.log(`You chose: ${humanChoice}, AI chose: ${computerChoice}`);
+
+    if (roundsPlayed >= 5) {
+        if (humanScore > computerScore) {
+            div.textContent = `🏆 You won! Final Score: ${humanScore}:${computerScore}`;
+        } else if (humanScore < computerScore) {
+            div.textContent = `😔 AI won! Final Score: ${humanScore}:${computerScore}`;
+        } else {
+            div.textContent = `🤝 Draw! Final Score: ${humanScore}:${computerScore}`;
+        }
+        rockBtn.disabled = true;
+        paperBtn.disabled = true;
+        scissorsBtn.disabled = true;
+        }
+
 }
 
 function playGame() {
-    let humanSelection = getHumanChoice();
-    let computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection)
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection)
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection)
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection)
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection)
-    console.log(`Your score is ${humanScore}`)
-    console.log(`Computers score is ${computerScore}`)
+    rockBtn.addEventListener('click', event =>
+        playRound('rock', getComputerChoice())
+    )
+    paperBtn.addEventListener('click', event =>
+        playRound('paper', getComputerChoice())
+    )
+    scissorsBtn.addEventListener('click', event =>
+        playRound('scissors', getComputerChoice())
+    )
 }
 
-playGame()
+playGame();
